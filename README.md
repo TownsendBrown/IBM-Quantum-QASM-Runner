@@ -3,18 +3,18 @@
 A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and simulators.
 
 ## 📋 Table of Contents
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Command Reference](#command-reference)
-- [Output Formats](#output-formats)
-- [Examples](#examples)
-- [Error Handling](#error-handling)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-- [License](LICENSE)
+1. [Features](#features)
+2. [Requirements](#requirements)
+3. [Installation](#installation)
+4. [Configuration](#configuration)
+5. [Usage](#usage)
+6. [Command Reference](#command-reference)
+7. [Output Formats](#output-formats)
+8. [Examples](#examples)
+9. [Error Handling](#error-handling)
+10. [API Reference](#api-reference)
+11. [Contributing](#contributing)
+12. [License](LICENSE)
 
 ## ✨ Features
 

@@ -16,7 +16,7 @@ A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and
 11. [Contributing](#contributing)
 12. [License](LICENSE)
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---------|-------------|
@@ -29,7 +29,7 @@ A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and
 | **Qubit Validation** | Automatic validation against configurable qubit limits |
 | **Multiple Output Formats** | Human-readable or JSON formatted output |
 
-## 📦 Requirements
+## Requirements
 
 ### System Requirements
 | Component | Version |
@@ -44,7 +44,7 @@ A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and
 | qiskit-ibm-runtime | ≥ 0.15.0 | IBM Quantum backend access |
 | matplotlib | ≥ 3.5.0 | Circuit visualization |
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the Repository
 ```bash
@@ -72,7 +72,7 @@ To obtain an API key:
 2. Create an account or sign in
 3. Navigate to Account Settings → API Token
 
-## 🔧 Configuration
+## Configuration
 
 ### Configuration Parameters
 
@@ -81,7 +81,7 @@ To obtain an API key:
 | `ibm_api_key` | string | Required | IBM Quantum Platform API key |
 | `qubit_limit` | integer | 100 | Maximum qubits allowed per circuit |
 
-## 📖 Usage
+## Usage
 
 ### Interactive Mode
 Launch without arguments for guided setup:
@@ -100,7 +100,7 @@ python qasm_runner.py circuit.qasm
 python qasm_runner.py circuit.qasm --shots 2048 --backend ibm_torino --visualize --save-json
 ```
 
-## 🛠️ Command Reference
+## Command Reference
 
 ### Main Commands
 
@@ -124,7 +124,7 @@ python qasm_runner.py circuit.qasm --shots 2048 --backend ibm_torino --visualize
 | `--test` | flag | False | Run API connection test |
 | `--list-backends` | flag | False | List all backends |
 
-## 📊 Output Formats
+## Output Formats
 
 ### Human-Readable Output
 ```
@@ -185,7 +185,7 @@ python qasm_runner.py circuit.qasm --shots 2048 --backend ibm_torino --visualize
 }
 ```
 
-## 📚 Examples
+## Examples
 
 ### Example 1: Basic Grover's Algorithm
 ```bash
@@ -220,7 +220,7 @@ python qasm_runner.py circuit.qasm --backend ibm_brisbane
 python qasm_runner.py circuit.qasm --interactive
 ```
 
-## ⚠️ Error Handling
+## Error Handling
 
 ### Common Errors and Solutions
 
@@ -232,7 +232,7 @@ python qasm_runner.py circuit.qasm --interactive
 | `Job timeout` | Long queue or execution | Retry or use different backend |
 | `No operational backends` | All backends offline | Wait and retry later |
 
-## 🔌 API Reference
+## API Reference
 
 ### Core Functions
 
@@ -257,7 +257,7 @@ python qasm_runner.py circuit.qasm --interactive
 | `error` | str | Error message (if failed) |
 | `visualization` | Dict | Paths to generated visualizations |
 
-## 📈 Performance Considerations
+## Performance Considerations
 
 ### Optimization Tips
 
@@ -268,7 +268,7 @@ python qasm_runner.py circuit.qasm --interactive
 | **Batch Size** | Process 5-10 circuits per batch to avoid timeouts |
 | **Qubit Count** | Keep under 10 qubits for real hardware |
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please ensure:
 - Code follows existing style patterns
@@ -276,13 +276,13 @@ Contributions are welcome! Please ensure:
 - Error handling is comprehensive
 - New features include documentation
 
-## 🔗 Links
+## Links
 
 - [IBM Quantum Platform](https://quantum-computing.ibm.com/)
 - [OpenQASM Documentation](https://github.com/openqasm/openqasm)
 - [Qiskit Documentation](https://qiskit.org/documentation/)
 
-## 💡 Support
+## Support
 
 For issues or questions:
 1. Check the error handling section

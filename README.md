@@ -14,6 +14,7 @@ A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and
 - [Error Handling](#error-handling)
 - [API Reference](#api-reference)
 - [Contributing](#contributing)
+- [License](LICENSE)
 
 ## ✨ Features
 

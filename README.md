@@ -1,6 +1,6 @@
 # QASM Runner (IBM Quantum Platform)
 
-A command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and simulators.
+Vibe coded command-line tool for executing OpenQASM 2.0 files on IBM Quantum hardware and simulators.
 
 ## 📋 Table of Contents
 1. [Features](#features)

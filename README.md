@@ -226,7 +226,7 @@ python qasm_runner.py --test
 
 This will test your API key, list available backends, and optionally run a simple quantum circuit.
 
-## 🧠 Qiskit Ecosystem Integration
+## Qiskit Ecosystem Integration
 
 This project is part of the Qiskit Ecosystem and extends Qiskit's functionality by providing a
 command-line automation layer for executing OpenQASM 2.0 circuits directly on IBM Quantum

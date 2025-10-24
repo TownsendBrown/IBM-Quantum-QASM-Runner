@@ -19,12 +19,24 @@ A Python CLI tool to execute .qasm files on the IBM Quantum Platform.
 pip install -r requirements.txt
 ```
 
-2. Ensure your `config.json` contains a valid IBM Quantum API key:
-```json
-{
-  "ibm_api_key": "your_ibm_quantum_api_key_here"
-}
-```
+2. Configure your IBM Quantum API key using one of these methods:
+
+   **Option A: Using config.json (recommended for local development)**
+   ```json
+   {
+     "ibm_api_key": "your_ibm_quantum_api_key_here",
+     "qubit_limit": 100
+   }
+   ```
+
+   **Option B: Using environment variables (recommended for CI/CD)**
+   ```bash
+   export QISKIT_IBM_TOKEN="your_ibm_quantum_api_key_here"
+   # OR
+   export IBM_API_KEY="your_ibm_quantum_api_key_here"
+   ```
+
+Get your API key from: https://quantum-computing.ibm.com/
 
 ## Usage
 
@@ -80,12 +92,30 @@ python3 qasm_runner.py --test
 python3 qasm_runner.py --list-backends
 ```
 
+### Non-Interactive Mode (CI/CD)
+
+The application automatically detects non-interactive environments (e.g., CI/CD pipelines) and skips interactive prompts. In non-interactive mode, it will:
+- Use the first available backend if none is specified
+- Use default values for any unspecified options
+- Exit with an error if required files are not provided
+
+```bash
+# Non-interactive mode (automatically detected in CI/CD)
+python3 qasm_runner.py circuit.qasm --shots 256 --json --save-json
+```
+
+You can also explicitly enable non-interactive mode:
+```bash
+python3 qasm_runner.py circuit.qasm --non-interactive
+```
+
 ### Command Line Options
 
 - `qasm_files`: One or more .qasm files to execute (optional - will prompt for files if omitted)
 - `--shots N`: Number of shots to run (default: 1024) - overrides interactive prompt
 - `--backend NAME`: Specific backend to use - overrides interactive prompt
 - `--interactive`: Interactively select backend (legacy flag, now default behavior)
+- `--non-interactive`: Run in non-interactive mode (auto-select first available backend)
 - `--json`: Output results in JSON format - overrides interactive prompt
 - `--visualize`: Generate circuit diagram visualization (saved as PNG)
 - `--save-json`: Save results to JSON file (filename based on .qasm file)
@@ -93,7 +123,7 @@ python3 qasm_runner.py --list-backends
 - `--list-backends`: List all available backends
 - `--help`: Show help message
 
-**Note**: The application now runs in interactive mode by default. Command-line flags will override the interactive prompts when specified.
+**Note**: The application now runs in interactive mode by default. Command-line flags will override the interactive prompts when specified. In non-interactive environments (e.g., CI/CD), interactive prompts are automatically skipped.
 
 ### Visualization and Output Options
 
@@ -133,18 +163,6 @@ cx q[0],q[1];
 measure q[0] -> c[0];
 measure q[1] -> c[1];
 ```
-
-## Configuration
-
-The tool uses `config.json` for configuration:
-
-```json
-{
-  "ibm_api_key": "your_ibm_quantum_api_key_here"
-}
-```
-
-Get your API key from: https://quantum-computing.ibm.com/
 
 ## Error Handling
 
@@ -218,6 +236,8 @@ Example JSON output:
 
 ## Testing
 
+### Manual Testing
+
 Run the built-in test to verify your setup:
 
 ```bash
@@ -225,6 +245,39 @@ python qasm_runner.py --test
 ```
 
 This will test your API key, list available backends, and optionally run a simple quantum circuit.
+
+### Automated Testing (pytest)
+
+The repository includes automated tests:
+
+```bash
+# Install test dependencies
+pip install -r requirements.txt pytest
+
+# Run simulator tests (no API key required)
+pytest tests/test_qasm_runner_aer.py -v
+
+# Run IBM runtime tests (requires IBM_API_KEY environment variable)
+export IBM_API_KEY="your_api_key_here"
+pytest tests/test_qasm_runner_ibm.py -v
+
+# Run all tests
+pytest tests/ -v
+```
+
+### CI/CD Integration
+
+The repository includes a GitHub Actions workflow (`.github/workflows/test.yml`) that:
+- ✅ Always runs simulator tests (using `qiskit-aer`)
+- 🔐 Only runs IBM runtime tests if `IBM_API_KEY` is configured in repository secrets
+- ⏭️ Skips IBM tests gracefully if no API key is available
+
+To enable IBM runtime tests in your fork:
+1. Go to your repository's Settings → Secrets and variables → Actions
+2. Add a new repository secret named `IBM_API_KEY`
+3. Set the value to your IBM Quantum API key
+
+The workflow will automatically detect the secret and run IBM tests on all pushes and pull requests.
 
 ## Qiskit Ecosystem Integration
 

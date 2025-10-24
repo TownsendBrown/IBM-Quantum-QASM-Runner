@@ -15,14 +15,22 @@ from pathlib import Path
 from typing import Optional, List, Dict, Any
 
 def load_config() -> Dict[str, Any]:
-    """Load configuration from config.json file."""
+    """Load configuration from config.json file or use environment variables."""
     config_path = Path(__file__).parent / "config.json"
     try:
         with open(config_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print("❌ config.json file not found")
+        # Check if API key is available via environment variables
+        if os.environ.get('QISKIT_IBM_TOKEN') or os.environ.get('IBM_API_KEY'):
+            # Return a minimal config with default values
+            return {
+                'ibm_api_key': None,  # Will be loaded from env vars later
+                'qubit_limit': 100
+            }
+        print("❌ config.json file not found and no API key in environment variables")
         print("💡 Please ensure config.json exists with your IBM Quantum API key")
+        print("💡 Or set QISKIT_IBM_TOKEN or IBM_API_KEY environment variable")
         sys.exit(1)
     except json.JSONDecodeError:
         print("❌ Invalid JSON in config.json")
@@ -300,11 +308,11 @@ def execute_circuit_on_ibm(circuit, config: Dict[str, Any], shots: int = 1024,
     try:
         from qiskit_ibm_runtime import QiskitRuntimeService, Sampler
         
-        # Get API key from config
-        api_key = config.get('ibm_api_key')
+        # Get API key from config or environment variable
+        api_key = config.get('ibm_api_key') or os.environ.get('QISKIT_IBM_TOKEN') or os.environ.get('IBM_API_KEY')
         if not api_key:
-            print("❌ No IBM Quantum API key found in config.json")
-            return {"success": False, "error": "No IBM Quantum API key found in config.json"}
+            print("❌ No IBM Quantum API key found in config.json or environment variables")
+            return {"success": False, "error": "No IBM Quantum API key found in config.json or environment variables"}
         
         print("🔑 Authenticating with IBM Quantum...")
         service = QiskitRuntimeService(channel="ibm_quantum_platform", token=api_key)
@@ -531,9 +539,9 @@ def list_available_backends(config: Dict[str, Any]) -> bool:
     try:
         from qiskit_ibm_runtime import QiskitRuntimeService
         
-        api_key = config.get('ibm_api_key')
+        api_key = config.get('ibm_api_key') or os.environ.get('QISKIT_IBM_TOKEN') or os.environ.get('IBM_API_KEY')
         if not api_key:
-            print("❌ No IBM Quantum API key found in config.json")
+            print("❌ No IBM Quantum API key found in config.json or environment variables")
             return False
         
         print("🔑 Connecting to IBM Quantum...")
@@ -635,9 +643,9 @@ def interactive_setup(config: Dict[str, Any]) -> Dict[str, Any]:
     try:
         from qiskit_ibm_runtime import QiskitRuntimeService
         
-        api_key = config.get('ibm_api_key')
+        api_key = config.get('ibm_api_key') or os.environ.get('QISKIT_IBM_TOKEN') or os.environ.get('IBM_API_KEY')
         if not api_key:
-            print("❌ No IBM Quantum API key found in config.json")
+            print("❌ No IBM Quantum API key found in config.json or environment variables")
             sys.exit(1)
         
         service = QiskitRuntimeService(channel="ibm_quantum_platform", token=api_key)
@@ -806,8 +814,13 @@ Examples:
                        help='Run IBM Quantum API connection test')
     parser.add_argument('--list-backends', action='store_true',
                        help='List all available backends')
+    parser.add_argument('--non-interactive', action='store_true',
+                       help='Run in non-interactive mode (auto-select first available backend)')
     
     args = parser.parse_args()
+    
+    # Check if running in a non-interactive environment (e.g., CI/CD)
+    is_non_interactive = not sys.stdin.isatty() or args.non_interactive
     
     # Load configuration
     config = load_config()
@@ -824,10 +837,17 @@ Examples:
     
     # Interactive mode - always run interactive setup unless specific flags are used
     if not args.test and not args.list_backends:
-        print("🚀 Welcome to IBM Quantum QASM Runner!")
+        # Only show welcome message in interactive mode
+        if not is_non_interactive or not args.qasm_files:
+            print("🚀 Welcome to IBM Quantum QASM Runner!")
         
-        # If no .qasm files provided, get them interactively
+        # If no .qasm files provided, get them interactively (or fail in non-interactive mode)
         if not args.qasm_files:
+            if is_non_interactive:
+                print("❌ No .qasm files specified")
+                print("💡 Usage: qasm_runner.py <file.qasm> [options]")
+                sys.exit(1)
+            
             print("No .qasm files specified. Starting interactive mode...")
             print()
             
@@ -854,12 +874,13 @@ Examples:
                     print("\n❌ Cancelled by user")
                     sys.exit(1)
         else:
-            print("Starting interactive setup for provided files...")
-            print()
+            if not is_non_interactive:
+                print("Starting interactive setup for provided files...")
+                print()
         
-        # Interactive setup for shots, backend, and format (only if not all specified via flags)
-        needs_interactive = not (args.backend and args.json and args.shots != 1024 and hasattr(args, 'visualize') and hasattr(args, 'save_json'))
-        if needs_interactive:
+        # Interactive setup for shots, backend, and format (only if not in non-interactive mode and not explicitly set)
+        # Skip interactive setup if we're in non-interactive mode or if interactive flag is explicitly set
+        if not is_non_interactive and (args.interactive or not args.backend):
             interactive_config = interactive_setup(config)
             if not args.backend:
                 args.backend = interactive_config['backend']

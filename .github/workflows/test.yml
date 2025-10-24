@@ -22,21 +22,8 @@ jobs:
       run: |
         pip install -r requirements.txt pytest
     
-    - name: Run Aer simulator tests
-      run: |
-        pytest -v tests/test_qasm_runner_aer.py
-    
-    - name: Run IBM runtime tests
-      # Only run if IBM_API_KEY is available
-      if: secrets.IBM_API_KEY != ''
+    - name: Run all tests
       env:
         IBM_API_KEY: ${{ secrets.IBM_API_KEY }}
       run: |
-        pytest -v tests/test_qasm_runner_ibm.py
-    
-    - name: Skip IBM runtime tests message
-      # Show message when IBM_API_KEY is not available
-      if: secrets.IBM_API_KEY == ''
-      run: |
-        echo "⏭️  Skipping IBM runtime tests - no API key configured"
-        echo "💡 To run IBM tests, add IBM_API_KEY to repository secrets"
+        pytest -v tests/

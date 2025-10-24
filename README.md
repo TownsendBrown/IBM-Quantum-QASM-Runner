@@ -1,6 +1,6 @@
 # IBM Quantum QASM Runner
 
-A Python CLI tool to execute .qasm files on the IBM Quantum Platform.
+Vibe coded Python CLI tool to execute .qasm files on the IBM Quantum Platform.
 
 ## Features
 

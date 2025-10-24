@@ -4,14 +4,14 @@ import subprocess
 import pytest
 
 @pytest.mark.skipif(
-    "IBM_API_KEY" not in os.environ,
+    not os.environ.get("IBM_API_KEY", "").strip(),
     reason="IBM Quantum API key not found; skipping cloud test."
 )
 def test_ibm_runtime_execution(tmp_path):
     """
     Integration test for qasm_runner.py.
     Executes a QASM file on IBM Quantum backend (using the runtime API).
-    Skips automatically if IBM_API_KEY environment variable is not set.
+    Skips automatically if IBM_API_KEY environment variable is not set or empty.
     """
 
     qasm_file = "simple_test.qasm"

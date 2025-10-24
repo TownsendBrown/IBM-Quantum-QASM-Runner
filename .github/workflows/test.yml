@@ -1,26 +1,42 @@
-name: QASM Runner CI
-on: [push, pull_request]
+name: Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt pytest
-
-      - name: Run local Aer tests
-        run: pytest -v tests/test_qasm_runner_aer.py
-
-      - name: Run IBM Runtime tests (if key available)
-        env:
-          IBM_API_KEY: ${{ secrets.IBM_API_KEY }}
-        run: pytest -v tests/test_qasm_runner_ibm.py
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt pytest
+    
+    - name: Run Aer simulator tests
+      run: |
+        pytest -v tests/test_qasm_runner_aer.py
+    
+    - name: Run IBM runtime tests
+      # Only run if IBM_API_KEY is available
+      if: ${{ secrets.IBM_API_KEY != '' }}
+      env:
+        IBM_API_KEY: ${{ secrets.IBM_API_KEY }}
+      run: |
+        pytest -v tests/test_qasm_runner_ibm.py
+    
+    - name: Skip IBM runtime tests message
+      # Show message when IBM_API_KEY is not available
+      if: ${{ secrets.IBM_API_KEY == '' }}
+      run: |
+        echo "⏭️  Skipping IBM runtime tests - no API key configured"
+        echo "💡 To run IBM tests, add IBM_API_KEY to repository secrets"

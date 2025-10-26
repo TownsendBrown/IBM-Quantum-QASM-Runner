@@ -1,7 +1,7 @@
 # Contributor Code of Conduct
 
 ## Our Pledge
-In addition to adhearing to code of conduct for the [Qiskit Ecosystem], contributors and maintainers of this project, we pledge to make participation in our community
+In addition to adhearing to code of conduct for the [Qiskit Ecosystem], as contributors and maintainers of this project, we pledge to make participation in our community
 a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity,
 gender identity and expression, level of experience, nationality, personal appearance, race,
 religion, or sexual identity and orientation.

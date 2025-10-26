@@ -1,6 +1,9 @@
 # Qiskit QASM Runner for IBM Hardware and Simulators
 
 Vibe coded Python CLI tool to execute .qasm files on the IBM Quantum Platform.
+## Why?
+
+This program was made to help make quantum computing more accessible by giving users the ability to simply take files written in OpenQASM and run them on IBM hardware and locally run simulators.
 
 ## Features
 

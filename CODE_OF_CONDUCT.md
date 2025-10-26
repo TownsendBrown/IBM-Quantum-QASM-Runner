@@ -1,7 +1,7 @@
 # Contributor Code of Conduct
 
 ## Our Pledge
-In addition to adhearing to code of conduct for the Qiskit Ecosystem [https://quantum.cloud.ibm.com/docs/en/open-source/code-of-conduct], contributors and maintainers of this project, we pledge to make participation in our community
+In addition to adhearing to code of conduct for the [Qiskit Ecosystem] [code], contributors and maintainers of this project, we pledge to make participation in our community
 a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity,
 gender identity and expression, level of experience, nationality, personal appearance, race,
 religion, or sexual identity and orientation.
@@ -43,3 +43,4 @@ This Code of Conduct is adapted from the [Contributor Covenant][homepage], versi
 available at [https://www.contributor-covenant.org/version/2/1/code_of_conduct.html](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html).
 
 [homepage]: https://www.contributor-covenant.org
+[code]: https://quantum.cloud.ibm.com/docs/en/open-source/code-of-conduct

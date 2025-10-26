@@ -1,4 +1,4 @@
-# IBM Quantum QASM Runner
+# Qiskit QASM Runner for IBM Hardware and Simulators
 
 Vibe coded Python CLI tool to execute .qasm files on the IBM Quantum Platform.
 

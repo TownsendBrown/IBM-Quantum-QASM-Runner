@@ -1,6 +1,12 @@
 # Qiskit QASM Runner for IBM Hardware and Simulators
-"[![Qiskit Ecosystem](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fqiskit.github.io%2Fecosystem%2Fb%2F5b05d5a3)](https://qisk.it/e)"
 Vibe coded Python CLI tool to execute .qasm files on the IBM Quantum Platform.
+
+# My Qiskit Project
+
+[![Qiskit Ecosystem](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fqiskit.github.io%2Fecosystem%2Fb%2F5b05d5a3)](https://qisk.it/e)
+
+This project is part of the [Qiskit Ecosystem](https://github.com/Qiskit/ecosystem).
+
 ## Why?
 
 This program was made to help make quantum computing more accessible by giving users the ability to simply take files written in OpenQASM and run them on IBM hardware and locally run simulators.

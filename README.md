@@ -1,5 +1,5 @@
 # Qiskit QASM Runner for IBM Hardware and Simulators
-
+"[![Qiskit Ecosystem](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fqiskit.github.io%2Fecosystem%2Fb%2F5b05d5a3)](https://qisk.it/e)"
 Vibe coded Python CLI tool to execute .qasm files on the IBM Quantum Platform.
 ## Why?
 
